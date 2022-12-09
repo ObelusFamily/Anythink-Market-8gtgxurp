@@ -54,7 +54,8 @@ router.get("/", auth.optional, function(req, res, next) {
   }
 
   if (typeof req.query.title !== "undefined") {
-    query.title = { $in: [req.query.title] };
+    // https://stackoverflow.com/questions/35152310/mongoose-text-search-with-partial-string
+    query.title = { $regex: req.query.title, $options: "i" };
   }
 
   Promise.all([
